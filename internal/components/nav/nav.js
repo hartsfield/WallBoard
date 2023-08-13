@@ -7,7 +7,7 @@ function togglePostForm() {
         document.getElementById("newPostButt").style.background = "#8d561f";
     } else {
         document.getElementById("section-submitForm").style.display = "none";
-        document.getElementById("newPostButt").innerHTML = "new";
+        document.getElementById("newPostButt").innerHTML = "New";
         document.getElementById("newPostButt").style.background = "#709624";
     }
 
