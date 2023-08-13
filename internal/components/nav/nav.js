@@ -1,0 +1,2 @@
+{{ define "nav.js" }}
+{{end}}
