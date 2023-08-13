@@ -17,7 +17,7 @@ var (
 	rdb     = redis.NewClient(&redis.Options{
 		Addr:     redisIP + ":6379",
 		Password: "",
-		DB:       0,
+		DB:       1,
 	})
 
 	// this context is used for the client/server connection. It's useful
@@ -44,18 +44,15 @@ func buildDB() {
 		getAllChidren(&p)
 		postDB = append(postDB, &p)
 	}
-	log.Println(postDB[0].Children)
 }
 
 func getAllChidren(po *post) {
-	log.Println("test", po.Id)
 	var ids []string
 	err := rdb.ZRange(rdx, po.Id+":CHILDREN", 0, -1).ScanSlice(&ids)
 	if err != nil {
 		log.Println(err)
 	}
 
-	log.Println(ids)
 	for _, id := range ids {
 		var p post
 		rdb.HGetAll(rdx, id).Scan(&p)
