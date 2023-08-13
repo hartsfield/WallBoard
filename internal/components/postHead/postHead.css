@@ -4,6 +4,7 @@
 }
 .timestamp {
     width: fit-content;
+    color: #90877a;
 }
 .postHead-inner {
     display: flex;
@@ -13,15 +14,16 @@
     align-items: center;
 }
 .show-reply {
-    font-weight: bold;
     cursor: pointer;
-    background: #709624;
-    color: #e6ffce;
     border-radius: 0.2em;
     padding: 0.2em;
     margin: 0 2em;
+    color: #618100;
+    text-decoration: underline;
 }
-.replyView {
+.viewThread {
     cursor: pointer;
+    color: #057ba2;
+    text-decoration: underline;
 }
 {{end}}

@@ -3,7 +3,7 @@
     <div class="postHead">
         <div class="timestamp">{{ .TS }}</div>
         <div class="postHead-inner">
-            <div class="replyView" onclick="window.location = window.location.origin + '/post/{{ .Id }}'"> link </div>
+            <div class="viewThread" onclick="window.location = window.location.origin + '/post/{{ .Id }}'"> link </div>
             <div class="show-reply" onclick="toggleReplyForm({{.Id}})">reply</div>
         </div>
     </div>

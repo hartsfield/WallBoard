@@ -4,6 +4,7 @@
 }
 .timestamp {
     width: fit-content;
+    color: #b0aba0;
 }
 .postHead-inner {
     display: flex;
