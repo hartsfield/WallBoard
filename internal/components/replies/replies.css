@@ -1,0 +1,8 @@
+{{ define "replies.css" }}
+.postBody {
+  width: 100%;
+}
+.reply-form {
+  margin: 1em 0;
+}
+{{end}}

@@ -1,0 +1,23 @@
+{{ define "postHead.css" }}
+
+.postID {
+    cursor: pointer;
+}
+.timestamp {
+    width: 60%;
+}
+.postHead-inner {
+    display: flex;
+    width: 40%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.show-reply {
+    background-color: #910707;
+    padding: 0.3em;
+    color: white;
+    font-weight: bold;
+}
+{{end}}

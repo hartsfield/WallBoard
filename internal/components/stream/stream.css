@@ -1,0 +1,26 @@
+{{ define "stream.css" }}
+.post {
+    margin: 1em 0;
+    border: 1px solid #eaeaea;
+    border-radius: 0.3em;
+    padding: 0.3em 1em 0.5em 1em;
+}
+.postHead {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    font-size: 0.7em;
+    color: #2f4400;
+    font-family: monospace;
+}
+.body-outer {
+    margin: 0.5em 0;
+    margin-bottom: 0.8em;
+    text-align: justify;
+}
+.section-stream {
+    padding-bottom: 5em;
+    border-bottom: 1em solid #910707;
+}
+{{end}}

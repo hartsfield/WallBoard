@@ -1,0 +1,30 @@
+{{ define "repliesView.tmpl" }}
+<div class="section-outer postElement-outer section-postElement" id="section-postElement">
+    <div class="post">
+        <div class="body-outer">
+            <div class="bodytext">{{ .BodyText }}</div>
+        </div>
+        {{ template "postHead.tmpl" . }}
+    <div class="reply-form" id="reply-form_{{.Id}}">
+        <form class="mainForm">
+            <textarea class="postBody" id="body" placeholder="post something..."></textarea>
+        </form>
+        <div id="errorField"></div>
+        <div class="submitButt" onclick="submitReply({{.Id}})">post</div>
+    </div>
+    {{ template "replies.tmpl" .Children }}
+    </div>
+</div>
+<style>{{ template "postElement.css" }}</style>
+<script>{{ template "postElement.js"}}</script>
+{{end}}
+{{define "postElement.tmpl"}}
+ <div class="section-outer postElement-outer section-postElement" id="section-postElement">
+    <div class="post">
+        <div class="body-outer">
+            <div class="bodytext">{{ .BodyText }}</div>
+        </div>
+        {{ template "postHead.tmpl" . }}
+    </div>
+</div>
+{{end}}

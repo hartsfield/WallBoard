@@ -1,0 +1,2 @@
+{{ define "postElement.js" }}
+{{end}}

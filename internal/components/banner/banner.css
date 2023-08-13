@@ -1,0 +1,12 @@
+{{ define "banner.css" }}
+.banner {
+    background-color: #008000a3;
+    color: white;
+    padding: 0.5em;
+    width: 50vw;
+    text-align: center;
+    position: fixed;
+    transform: rotate(45deg);
+    right: -7em;
+}
+{{end}}
