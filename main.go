@@ -34,16 +34,34 @@ func init() {
 
 func buildDB() {
 	var ids []string
-	err := rdb.ZRevRange(rdx, "ANON:POSTS:CHRON", 0, -1).ScanSlice(&ids)
+	err := rdb.ZRange(rdx, "ANON:POSTS:CHRON", 0, -1).ScanSlice(&ids)
 	if err != nil {
 		log.Println(err)
 	}
 	for _, id := range ids {
 		var p post
 		rdb.HGetAll(rdx, id).Scan(&p)
+		getAllChidren(&p)
 		postDB = append(postDB, &p)
 	}
-	log.Println(postDB)
+	log.Println(postDB[0].Children)
+}
+
+func getAllChidren(po *post) {
+	log.Println("test", po.Id)
+	var ids []string
+	err := rdb.ZRange(rdx, po.Id+":CHILDREN", 0, -1).ScanSlice(&ids)
+	if err != nil {
+		log.Println(err)
+	}
+
+	log.Println(ids)
+	for _, id := range ids {
+		var p post
+		rdb.HGetAll(rdx, id).Scan(&p)
+		getAllChidren(&p)
+		po.Children = append(po.Children, &p)
+	}
 }
 
 func main() {

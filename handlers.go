@@ -20,13 +20,12 @@ func viewPost(w http.ResponseWriter, r *http.Request) {
 	parts := strings.Split(r.RequestURI, "/")
 	var p post
 	rdb.HGetAll(rdx, parts[len(parts)-1]).Scan(&p)
-	var childrenIDs []string
-	rdb.ZRevRange(rdx, parts[len(parts)-1]+":CHILDREN", 0, -1).ScanSlice(&childrenIDs)
-	for _, id := range childrenIDs {
-		var po post
-		rdb.HGetAll(rdx, id).Scan(&po)
-		p.Children = append(p.Children, &po)
-	}
+	getAllChidren(&p)
+	// for _, id := range childrenIDs {
+	// 	var po post
+	// 	rdb.HGetAll(rdx, id).Scan(&po)
+	// 	p.Children = append(p.Children, getAllChidren(&po))
+	// }
 	var v viewData
 	v.Stream = nil
 	v.Stream = append(v.Stream, &p)
