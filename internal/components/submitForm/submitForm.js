@@ -1,7 +1,6 @@
 {{ define "submitForm.js" }}
 async function submitPost() {
     let formBody = document.getElementById("body").value;
-    console.log(formBody.length)
     if (formBody.length < 5) {
         document.getElementById("errorField").innerHTML = "too short";
     } else if (formBody.length > 1000) {
@@ -19,10 +18,29 @@ async function submitPost() {
 
         let res = await response.json();
         if (res.success == "true") {
-            console.log("true");
+            let submitForm = document.getElementById("section-submitForm");
+            submitForm.remove();
+            let prev = document.getElementById("section-stream").innerHTML;
+            // let insert = document.createElement(
+            let newelm = 
+`<div class="section-outer postElement-outer section-postElement" id="section-postElement">
+    <div class="post">
+        <div class="body-outer">
+            <div class="bodytext">` + formBody + `</div>
+        </div>
+    </div>
+</div>`
+            document.getElementById("section-stream").innerHTML = newelm + prev;
         } else {
             console.log("error");
         }
+    }
+}
+
+function testText() {
+    let textfield = document.getElementById("body");
+    if (textfield.value.length > 5) {
+
     }
 }
 {{end}}

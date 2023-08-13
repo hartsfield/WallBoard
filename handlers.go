@@ -21,7 +21,7 @@ func viewPost(w http.ResponseWriter, r *http.Request) {
 	var p post
 	rdb.HGetAll(rdx, parts[len(parts)-1]).Scan(&p)
 	var childrenIDs []string
-	rdb.ZRange(rdx, parts[len(parts)-1]+":CHILDREN", 0, -1).ScanSlice(&childrenIDs)
+	rdb.ZRevRange(rdx, parts[len(parts)-1]+":CHILDREN", 0, -1).ScanSlice(&childrenIDs)
 	for _, id := range childrenIDs {
 		var po post
 		rdb.HGetAll(rdx, id).Scan(&po)

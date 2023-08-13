@@ -34,7 +34,7 @@ func init() {
 
 func buildDB() {
 	var ids []string
-	err := rdb.ZRange(rdx, "ANON:POSTS:CHRON", 0, -1).ScanSlice(&ids)
+	err := rdb.ZRevRange(rdx, "ANON:POSTS:CHRON", 0, -1).ScanSlice(&ids)
 	if err != nil {
 		log.Println(err)
 	}

@@ -1,12 +1,24 @@
 {{ define "nav.css" }}
-.homeButt {
+.navButt {
     padding: 0.3em 1em 0.5em 1em;
     margin: 1em 0;
-    color: #fddcff;
     border-radius: 0.2em;
     width: fit-content;
-    background-color: #9c85b8;
     cursor: pointer;
     font-weight: 400;
+}
+.homeButt {
+    color: #fddcff;
+    background-color: #9c85b8;
+}
+.newPost {
+    background: #709624;
+    color: #e6ffce;
+}
+.nav-inner {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
 }
 {{end}}

@@ -1,6 +1,12 @@
 {{ define "nav.tmpl" }}
 <div class="section-outer nav-outer section-nav" id="section-nav">
-    <div class="homeButt" onclick="window.location = window.location.origin">WallBoard</div>
+    <div class="nav-inner">
+        <div class="homeButt navButt" onclick="window.location = window.location.origin">WallBoard</div>
+    {{if eq .ViewType "post"}}
+    {{else}}
+        <div class="newPost navButt" onclick="togglePostForm()" id="newPostButt">new</div>
+    {{end}}
+    </div>
 </div>
 <style>{{ template "nav.css" }}</style>
 <script>{{ template "nav.js"}}</script>
