@@ -1,5 +1,4 @@
 {{ define "postHead.css" }}
-
 .postID {
     cursor: pointer;
 }

@@ -1,0 +1,26 @@
+{{ define "rootHead.css" }}
+.postID {
+    cursor: pointer;
+}
+.timestamp {
+    width: fit-content;
+}
+.postHead-inner {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.viewThread {
+    margin-left: 3em;
+    cursor: pointer;
+    color: #057ba2;
+    text-decoration: underline;
+}
+.id-color {
+    display: inline;
+    color: green;
+}
+
+{{end}}
