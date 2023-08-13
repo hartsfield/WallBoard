@@ -7,6 +7,7 @@ type post struct {
 	Id       string    `json:"id" redis:"id"`
 	Author   string    `json:"author,name" redis:"author"`
 	TS       time.Time `json:"ts" redis:"ts"`
+	FTS      string    `json:"fts" redis:"fts"`
 	BodyText string    `json:"bodytext" redis:"bodytext"`
 	Nonce    string    `json:"nonce" redis:"nonce"`
 	Children []*post   `json:"children" redis:"children"`

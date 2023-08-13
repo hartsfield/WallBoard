@@ -1,2 +1,0 @@
-{{ define "rootHead.js" }}
-{{end}}

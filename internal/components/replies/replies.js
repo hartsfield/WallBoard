@@ -1,2 +1,0 @@
-{{ define "replies.js" }}
-{{end}}

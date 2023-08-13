@@ -1,11 +1,10 @@
 {{ define "stream.js" }}
 async function submitReply(postID) {
-    console.log(postID);
-    let formBody = document.getElementById("body").value;
+    let formBody = document.getElementById("body_"+postID).value;
     if (formBody.length < 5) {
-        document.getElementById("errorField").innerHTML = "too short";
+        document.getElementById("errorField_"+postID).innerHTML = "too short";
     } else if (formBody.length > 1000) {
-        document.getElementById("errorField").innerHTML = "too long";
+        document.getElementById("errorField_"+postID).innerHTML = "too long";
     } else {
         const response = await fetch("/api/submitForm", {
             method: "POST",
@@ -19,7 +18,10 @@ async function submitReply(postID) {
 
         let res = await response.json();
         if (res.success == "true") {
-            console.log("true");
+            console.log(postID);
+            let submitForm = document.getElementById("reply-form_"+postID);
+            submitForm.remove();
+            window.location = window.location.origin + "/post/" + postID;
         } else {
             console.log("error");
         }

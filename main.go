@@ -34,7 +34,13 @@ func init() {
 
 func buildDB() {
 	var ids []string
-	err := rdb.ZRange(rdx, "ANON:POSTS:CHRON", 0, -1).ScanSlice(&ids)
+	opts := &redis.ZRangeBy{
+		Min:    "-inf",
+		Max:    "+inf",
+		Offset: 0,
+		Count:  -1,
+	}
+	err := rdb.ZRevRangeByScore(rdx, "ANON:POSTS:CHRON", opts).ScanSlice(&ids)
 	if err != nil {
 		log.Println(err)
 	}
@@ -48,7 +54,13 @@ func buildDB() {
 
 func getAllChidren(po *post) {
 	var ids []string
-	err := rdb.ZRange(rdx, po.Id+":CHILDREN", 0, -1).ScanSlice(&ids)
+	opts := &redis.ZRangeBy{
+		Min:    "-inf",
+		Max:    "+inf",
+		Offset: 0,
+		Count:  -1,
+	}
+	err := rdb.ZRevRangeByScore(rdx, po.Id+":CHILDREN", opts).ScanSlice(&ids)
 	if err != nil {
 		log.Println(err)
 	}

@@ -21,11 +21,6 @@ func viewPost(w http.ResponseWriter, r *http.Request) {
 	var p post
 	rdb.HGetAll(rdx, parts[len(parts)-1]).Scan(&p)
 	getAllChidren(&p)
-	// for _, id := range childrenIDs {
-	// 	var po post
-	// 	rdb.HGetAll(rdx, id).Scan(&po)
-	// 	p.Children = append(p.Children, getAllChidren(&po))
-	// }
 	var v viewData
 	v.Stream = nil
 	v.Stream = append(v.Stream, &p)
@@ -38,6 +33,7 @@ func handleForm(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
+	log.Println(data.Parent)
 	if len(data.Title) > 1 {
 		// return
 	}
@@ -47,6 +43,7 @@ func handleForm(w http.ResponseWriter, r *http.Request) {
 	}
 	data.Id = genPostID(10)
 	data.TS = time.Now()
+	data.FTS = data.TS.Format("2006-01-02 03:04:05 pm")
 	rdb.HSet(
 		rdx, data.Id,
 		"name", data.Author,
@@ -54,17 +51,20 @@ func handleForm(w http.ResponseWriter, r *http.Request) {
 		"bodytext", data.BodyText,
 		"id", data.Id,
 		"ts", data.TS,
+		"fts", data.FTS,
 		"parent", data.Parent,
 	)
-	log.Println(data.Parent)
 	if data.Parent != "root" {
-		rdb.ZAdd(rdx, data.Parent+":CHILDREN", redis.Z{Score: 0, Member: data.Id})
+		rdb.ZAdd(rdx, data.Parent+":CHILDREN", redis.Z{Score: float64(time.Now().UnixMilli()), Member: data.Id})
 	} else {
-
 		postDB = append(postDB, data)
-		rdb.ZAdd(rdx, "ANON:POSTS:CHRON", redis.Z{Score: 0, Member: data.Id})
+		rdb.ZAdd(rdx, "ANON:POSTS:CHRON", redis.Z{Score: float64(time.Now().UnixMilli()), Member: data.Id})
 	}
-	ajaxResponse(w, map[string]string{"success": "true"})
+	ajaxResponse(w, map[string]string{
+		"success":   "true",
+		"replyID":   data.Id,
+		"timestamp": data.FTS,
+	})
 }
 
 func marshalPostData(r *http.Request) (*post, error) {
