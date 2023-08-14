@@ -26,7 +26,7 @@ func getByChron(w http.ResponseWriter, r *http.Request) {
 }
 func getByRanked(w http.ResponseWriter, r *http.Request) {
 	var v viewData
-	// var count int = 0
+	var count int = 0
 	// if len(strings.Split(r.RequestURI, "?")) > 1 {
 	// 	params, err := url.ParseQuery(strings.Split(r.RequestURI, "?")[1])
 	// 	if err != nil {
