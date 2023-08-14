@@ -24,7 +24,8 @@ var (
 	// for passing the token/credentials around.
 	rdx = context.Background()
 
-	postDB []*post
+	postDBChron []*post
+	postDBRank  []*post
 )
 
 func init() {
@@ -32,58 +33,17 @@ func init() {
 	rand.Seed(time.Now().UTC().UnixNano())
 }
 
-func buildDB() {
-	var ids []string
-	opts := &redis.ZRangeBy{
-		Min:    "-inf",
-		Max:    "+inf",
-		Offset: 0,
-		Count:  -1,
-	}
-	err := rdb.ZRevRangeByScore(rdx, "ANON:POSTS:CHRON", opts).ScanSlice(&ids)
-	if err != nil {
-		log.Println(err)
-	}
-	for _, id := range ids {
-		var p post
-		rdb.HGetAll(rdx, id).Scan(&p)
-		getAllChidren(&p)
-		postDB = append(postDB, &p)
-	}
-}
-
-func getAllChidren(po *post) {
-	var ids []string
-	opts := &redis.ZRangeBy{
-		Min:    "-inf",
-		Max:    "+inf",
-		Offset: 0,
-		Count:  -1,
-	}
-	err := rdb.ZRevRangeByScore(rdx, po.Id+":CHILDREN", opts).ScanSlice(&ids)
-	if err != nil {
-		log.Println(err)
-	}
-
-	for _, id := range ids {
-		var p post
-		rdb.HGetAll(rdx, id).Scan(&p)
-		getAllChidren(&p)
-		po.Children = append(po.Children, &p)
-	}
-}
-
 func main() {
 	if len(logFilePath) > 1 {
 		logFile := setupLogging()
 		defer logFile.Close()
 	}
+	beginCache()
 
 	ctx, srv := bolt()
 
 	fmt.Println("Server started @ http://localhost" + srv.Addr)
 	log.Println("Server started @ " + srv.Addr)
 
-	buildDB()
 	<-ctx.Done()
 }

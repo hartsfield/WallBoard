@@ -12,7 +12,13 @@ import (
 
 func home(w http.ResponseWriter, r *http.Request) {
 	var v viewData
-	v.Stream = postDB
+	v.Stream = postDBChron
+	exeTmpl(w, r, &v, "main.tmpl")
+}
+
+func getByRanked(w http.ResponseWriter, r *http.Request) {
+	var v viewData
+	v.Stream = postDBRank
 	exeTmpl(w, r, &v, "main.tmpl")
 }
 
@@ -20,7 +26,7 @@ func viewPost(w http.ResponseWriter, r *http.Request) {
 	parts := strings.Split(r.RequestURI, "/")
 	var p post
 	rdb.HGetAll(rdx, parts[len(parts)-1]).Scan(&p)
-	getAllChidren(&p)
+	getAllChidren(&p, "RANK")
 	var v viewData
 	v.Stream = nil
 	v.Stream = append(v.Stream, &p)
@@ -53,18 +59,22 @@ func handleForm(w http.ResponseWriter, r *http.Request) {
 		"ts", data.TS,
 		"fts", data.FTS,
 		"parent", data.Parent,
+		"childCount", "0",
 	)
 	if data.Parent != "root" {
-		rdb.ZAdd(rdx, data.Parent+":CHILDREN", redis.Z{Score: float64(time.Now().UnixMilli()), Member: data.Id})
+		rdb.ZAdd(rdx, data.Parent+":CHILDREN:CHRON", redis.Z{Score: float64(time.Now().UnixMilli()), Member: data.Id})
+		rdb.ZAdd(rdx, data.Parent+":CHILDREN:RANK", redis.Z{Score: 0, Member: data.Id})
+		bubbleUp(data)
 	} else {
-		postDB = append(postDB, data)
 		rdb.ZAdd(rdx, "ANON:POSTS:CHRON", redis.Z{Score: float64(time.Now().UnixMilli()), Member: data.Id})
+		rdb.ZAdd(rdx, "ANON:POSTS:RANK", redis.Z{Score: 0, Member: data.Id})
 	}
 	ajaxResponse(w, map[string]string{
 		"success":   "true",
 		"replyID":   data.Id,
 		"timestamp": data.FTS,
 	})
+	beginCache()
 }
 
 func marshalPostData(r *http.Request) (*post, error) {

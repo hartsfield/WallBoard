@@ -23,4 +23,18 @@
     flex-wrap: nowrap;
     justify-content: space-between;
 }
+.popular {
+    background-color: #bd8c17;
+    color: white;
+}
+.newest {
+    color: white;
+    background-color: #33907e;
+}
+.leftNav {
+    display: flex;
+}
+.leftNav > .navButt {
+    margin: 1em 0.5em 1em 0;
+}
 {{end}}
