@@ -23,7 +23,7 @@ var lastCached time.Time
 // function is designed to only rebuild the cache every 3 seconds. This could
 // be adjusted if needed.
 func beginCache() {
-	if time.Now().Sub(lastCached).Milliseconds() > 3000 {
+	if time.Now().Sub(lastCached).Milliseconds() > 500 {
 		lastCached = time.Now()
 		// Race condition(?) prevention. Say we have two users posting
 		// consecutively. User_1 submits a post and this triggers a
@@ -35,7 +35,7 @@ func beginCache() {
 		// are cached, even those that don't trigger a re-cache
 		// automatically.
 		// This function is non-blocking (is executed in a goroutine)
-		time.AfterFunc(3000*time.Millisecond, func() { buildDB() })
+		time.AfterFunc(500*time.Millisecond, func() { buildDB() })
 	}
 }
 
@@ -95,12 +95,12 @@ func getAllChidren(po *post, suffix string) {
 }
 
 func bubbleUp(p *post) {
-	if p.Parent != "root" {
-		str, err := rdb.HGet(rdx, p.Id, "childCount").Result()
-		if err != nil {
-			log.Println(err)
-		}
+	str, err := rdb.HGet(rdx, p.Id, "childCount").Result()
+	if err != nil {
+		log.Println(err)
+	}
 
+	if len(str) > 0 {
 		num, err := strconv.Atoi(str)
 		if err != nil {
 			log.Println(err)
@@ -111,14 +111,16 @@ func bubbleUp(p *post) {
 			rdb.ZIncrBy(rdx, "ANON:POSTS:RANK", 1, p.Id)
 		}
 
-		rdb.ZIncrBy(rdx, p.Parent+":CHILDREN:RANK", 1, p.Id)
-		var po post
-		err = rdb.HGetAll(rdx, p.Parent).Scan(&po)
-		if err != nil {
-			log.Println(err)
-		}
+		if p.Parent != "root" {
+			rdb.ZIncrBy(rdx, p.Parent+":CHILDREN:RANK", 1, p.Id)
+			var po post
+			err = rdb.HGetAll(rdx, p.Parent).Scan(&po)
+			if err != nil {
+				log.Println(err)
+			}
 
-		bubbleUp(&po)
+			bubbleUp(&po)
+		}
 	}
 }
 
@@ -128,8 +130,7 @@ func popLast() {
 		log.Println(err)
 	}
 
-	if length_ >= 5 {
-
+	if length_ >= 100 {
 		lastPostID, err := rdb.ZRange(rdx, "ANON:POSTS:CHRON", 0, 0).Result()
 		if err != nil {
 			log.Println(err)
@@ -137,6 +138,8 @@ func popLast() {
 
 		rdb.ZRemRangeByRank(rdx, "ANON:POSTS:CHRON", 0, 0)
 		rdb.ZRem(rdx, "ANON:POSTS:RANK", lastPostID)
+		rdb.Del(rdx, lastPostID[0]+":CHILDREN:RANK")
+		rdb.Del(rdx, lastPostID[0]+":CHILDREN:CHRON")
 		rdb.Del(rdx, lastPostID...)
 		// beginCache()
 	}

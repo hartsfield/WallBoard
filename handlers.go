@@ -40,6 +40,20 @@ func handleForm(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 	log.Println(data.Parent)
+	parentExists, err := rdb.Exists(rdx, data.Parent).Result()
+	if err != nil {
+		log.Println(err)
+	}
+
+	if parentExists == 0 && data.Parent != "root" {
+		log.Println(" no parent")
+		ajaxResponse(w, map[string]string{
+			"success":   "false",
+			"replyID":   "",
+			"timestamp": data.FTS,
+		})
+		return
+	}
 	if len(data.Title) > 1 {
 		// return
 	}
@@ -68,7 +82,7 @@ func handleForm(w http.ResponseWriter, r *http.Request) {
 	} else {
 		rdb.ZAdd(rdx, "ANON:POSTS:CHRON", redis.Z{Score: float64(time.Now().UnixMilli()), Member: data.Id})
 		rdb.ZAdd(rdx, "ANON:POSTS:RANK", redis.Z{Score: 0, Member: data.Id})
-		// popLast()
+		popLast()
 	}
 	ajaxResponse(w, map[string]string{
 		"success":   "true",
