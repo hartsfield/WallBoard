@@ -95,22 +95,22 @@ func getAllChidren(po *post, suffix string) {
 }
 
 func bubbleUp(p *post) {
-	str, err := rdb.HGet(rdx, p.Id, "childCount").Result()
-	if err != nil {
-		log.Println(err)
-	}
-
-	num, err := strconv.Atoi(str)
-	if err != nil {
-		log.Println(err)
-	}
-
-	rdb.HSet(rdx, p.Id, "childCount", fmt.Sprint(num+1))
-	if p.Parent == "root" {
-		rdb.ZIncrBy(rdx, "ANON:POSTS:RANK", 1, p.Id)
-	}
-
 	if p.Parent != "root" {
+		str, err := rdb.HGet(rdx, p.Id, "childCount").Result()
+		if err != nil {
+			log.Println(err)
+		}
+
+		num, err := strconv.Atoi(str)
+		if err != nil {
+			log.Println(err)
+		}
+
+		rdb.HSet(rdx, p.Id, "childCount", fmt.Sprint(num+1))
+		if p.Parent == "root" {
+			rdb.ZIncrBy(rdx, "ANON:POSTS:RANK", 1, p.Id)
+		}
+
 		rdb.ZIncrBy(rdx, p.Parent+":CHILDREN:RANK", 1, p.Id)
 		var po post
 		err = rdb.HGetAll(rdx, p.Parent).Scan(&po)
@@ -119,6 +119,26 @@ func bubbleUp(p *post) {
 		}
 
 		bubbleUp(&po)
+	}
+}
+
+func popLast() {
+	length_, err := rdb.ZCount(rdx, "ANON:POSTS:CHRON", "-inf", "+inf").Result()
+	if err != nil {
+		log.Println(err)
+	}
+
+	if length_ >= 5 {
+
+		lastPostID, err := rdb.ZRange(rdx, "ANON:POSTS:CHRON", 0, 0).Result()
+		if err != nil {
+			log.Println(err)
+		}
+
+		rdb.ZRemRangeByRank(rdx, "ANON:POSTS:CHRON", 0, 0)
+		rdb.ZRem(rdx, "ANON:POSTS:RANK", lastPostID)
+		rdb.Del(rdx, lastPostID...)
+		// beginCache()
 	}
 }
 

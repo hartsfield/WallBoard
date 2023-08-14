@@ -68,6 +68,7 @@ func handleForm(w http.ResponseWriter, r *http.Request) {
 	} else {
 		rdb.ZAdd(rdx, "ANON:POSTS:CHRON", redis.Z{Score: float64(time.Now().UnixMilli()), Member: data.Id})
 		rdb.ZAdd(rdx, "ANON:POSTS:RANK", redis.Z{Score: 0, Member: data.Id})
+		// popLast()
 	}
 	ajaxResponse(w, map[string]string{
 		"success":   "true",
