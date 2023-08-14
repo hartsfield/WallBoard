@@ -12,13 +12,37 @@ import (
 
 func home(w http.ResponseWriter, r *http.Request) {
 	var v viewData
-	v.Stream = postDBChron
+	var count int = 0
+	// v.Stream = postDBChron[count : count+20]
+	v.Stream = postDBChron[count:]
 	exeTmpl(w, r, &v, "main.tmpl")
 }
-
+func getByChron(w http.ResponseWriter, r *http.Request) {
+	var v viewData
+	var count int = 0
+	// v.Stream = postDBChron[count : count+20]
+	v.Stream = postDBChron[count:]
+	exeTmpl(w, r, &v, "main.tmpl")
+}
 func getByRanked(w http.ResponseWriter, r *http.Request) {
 	var v viewData
-	v.Stream = postDBRank
+	// var count int = 0
+	// if len(strings.Split(r.RequestURI, "?")) > 1 {
+	// 	params, err := url.ParseQuery(strings.Split(r.RequestURI, "?")[1])
+	// 	if err != nil {
+	// 		log.Println(err)
+	// 	} else {
+	// 		if params["count"] == nil {
+	// 			params["count"] = append(params["count"], "0")
+	// 		}
+	// 		count, err = strconv.Atoi(params["count"][0])
+	// 		if err != nil {
+	// 			log.Println(err)
+	// 		}
+	// 	}
+	// }
+	// v.Stream = postDBRank[count : count+20]
+	v.Stream = postDBRank[count:]
 	exeTmpl(w, r, &v, "main.tmpl")
 }
 
