@@ -25,9 +25,9 @@ async function submitNext() {
     let res = await response.json();
     if (res.success == "true") {
         postsWrapper.insertAdjacentHTML("beforeend", res.template);
+        requestMade = false;
         if (res.count != "None") {
             count = parseInt(res.count);
-            requestMade = false;
             count = res.count;
         } else {
             document.getElementById("nextPage").innerHTML = "no more posts";

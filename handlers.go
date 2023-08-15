@@ -50,7 +50,7 @@ func getByChron(w http.ResponseWriter, r *http.Request) {
 				// }
 				nextCount = "None"
 			} else {
-				v.Stream = postDBChron[count-1 : count+perPage]
+				v.Stream = postDBChron[count+1 : count+perPage]
 				log.Println(v.Stream)
 				nextCount = strconv.Itoa(count + perPage)
 			}
