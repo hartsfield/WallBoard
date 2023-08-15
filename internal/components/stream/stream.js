@@ -36,4 +36,49 @@ function toggleReplyForm(postID) {
         document.getElementById("reply-form_"+postID).style.display = "none";
     }
 }
+function isElementInViewport (el) {
+
+    // Special bonus for those using jQuery
+    if (typeof jQuery === "function" && el instanceof jQuery) {
+        el = el[0];
+    }
+
+    var rect = el.getBoundingClientRect();
+
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /* or $(window).height() */
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth) /* or $(window).width() */
+    );
+}
+let nextpagerButt = document.getElementById("nextPage");
+
+let requestMade = false;
+document.addEventListener("scroll", (event) => {
+    if (isElementInViewport(nextpagerButt) && !requestMade) {
+        setTimeout(() => {
+            console.log("inview");
+            submitNext();
+        }, 1000);
+    }
+});
+async function submitNext() {
+        requestMade = true;
+    const response = await fetch("/rank?count=20", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: "",
+    });
+
+    let res = await response.json();
+    if (res.success == "true") {
+        console.log(res.stream);
+    requestMade = false;
+    } else {
+        console.log("error");
+    }
+}
+
+
 {{end}}

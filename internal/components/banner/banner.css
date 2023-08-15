@@ -1,7 +1,5 @@
 {{ define "banner.css" }}
 .banner-outer {
-    background-color: #008000a3;
-    color: white;
     padding: 0.5em;
     width: 20em;
     text-align: center;
@@ -10,5 +8,7 @@
     right: -8.5em;
     bottom: 1em;
     font-weight: bold;
+    background: #709624;
+    color: #e6ffce;
 }
 {{end}}

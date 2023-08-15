@@ -22,10 +22,21 @@
     cursor: pointer;
     margin: 0.5em 1em 0.8em 0;
     text-align: justify;
-    color: #43a7c7;
+    color: #17404d;
 }
 .section-stream {
     padding-bottom: 5em;
     border-bottom: 1em solid #8d561f;
+}
+.timestamp {
+    color: #cb3fa8;
+    width: fit-content;
+
+    font-family: monospace;
+}
+.cCount {
+    color: #a65000;
+
+    font-family: monospace;
 }
 {{end}}
