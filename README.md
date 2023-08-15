@@ -1,7 +1,8 @@
 # WallBoard - Ephemeral - No Signup - GPLv3 - Message Board
 
-A message board built using a component based architecture written in Go and 
-provided under the Gnu Public License version 3 (GPLv3)
+Generic boiler plate code for use as an anonymous  message board. Built using a 
+component based architecture written in Go ([bolt](https://github.com/hartsfield/bolt)) and provided under the GNU 
+General Public License version 3 (GPLv3).
 
 # https://walBoard.xyz/
 
