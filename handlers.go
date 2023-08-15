@@ -16,6 +16,7 @@ import (
 func home(w http.ResponseWriter, r *http.Request) {
 	var v viewData
 	// var count int = 0
+	v.Order = "chron"
 	v.Stream = postDBChron[:20]
 	exeTmpl(w, r, &v, "main.tmpl")
 }
@@ -26,6 +27,7 @@ func getByChron(w http.ResponseWriter, r *http.Request) {
 	// exeTmpl(w, r, &v, "main.tmpl")
 	var perPage int = 20
 	var v viewData
+	v.Order = "chron"
 	var count int = 20
 	log.Println(strings.Split(r.RequestURI, "?"))
 	if len(strings.Split(r.RequestURI, "?")) > 1 {
@@ -77,6 +79,7 @@ func getByChron(w http.ResponseWriter, r *http.Request) {
 func getByRanked(w http.ResponseWriter, r *http.Request) {
 	var perPage int = 20
 	var v viewData
+	v.Order = "ranked"
 	var count int = 20
 	log.Println(strings.Split(r.RequestURI, "?"))
 	if len(strings.Split(r.RequestURI, "?")) > 1 {

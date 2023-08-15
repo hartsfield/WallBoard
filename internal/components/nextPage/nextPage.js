@@ -16,7 +16,7 @@ let lastPage = false;
 async function submitNext() {
     if (!lastPage) {
         let postsWrapper = document.getElementById("postsWrapper")
-        const response = await fetch("/chron?count=" + count, {
+        const response = await fetch("/{{.Order}}?count=" + count, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: "",
