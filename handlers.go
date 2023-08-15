@@ -50,12 +50,17 @@ func viewPost(w http.ResponseWriter, r *http.Request) {
 	parts := strings.Split(r.RequestURI, "/")
 	var p post
 	rdb.HGetAll(rdx, parts[len(parts)-1]).Scan(&p)
-	getAllChidren(&p, "RANK")
+	if len(p.Id) == 10 {
+		getAllChidren(&p, "RANK")
+	} else {
+		p.BodyText = "This post was automatically deleted."
+	}
 	var v viewData
 	v.Stream = nil
 	v.Stream = append(v.Stream, &p)
 	v.ViewType = "post"
 	exeTmpl(w, r, &v, "post.tmpl")
+
 }
 
 func handleForm(w http.ResponseWriter, r *http.Request) {
