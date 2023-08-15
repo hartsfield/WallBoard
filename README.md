@@ -2,7 +2,7 @@
 
 A message board built using a component based architecture written in Go.
 
-http://walBoard.xyz/
+# https://walBoard.xyz/
 
 # Requirements:
 ## For Development
