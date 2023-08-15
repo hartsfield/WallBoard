@@ -2,7 +2,7 @@
 
 Generic boiler plate code for use as an anonymous message board, or for building 
 other types of social media applications. Built using a component based 
-architecture written in Go ([bolt](https://github.com/hartsfield/bolt)) and 
+architecture written in Go ([bolt](https://github.com/hartsfield/bolt)), and 
 provided under the GNU General Public License version 3 (GPLv3).
 
 # https://walBoard.xyz/
