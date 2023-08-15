@@ -2,6 +2,8 @@
 
 A message board built using a component based architecture written in Go.
 
+http://walBoard.xyz/
+
 # Requirements:
 ## For Development
   - Go programming environment
