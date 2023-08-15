@@ -6,8 +6,11 @@
             {{if eq .ViewType "post"}}
         </div>
         {{else}}
-        <div class="navButt newest" onclick="getStream('newest')">Newest</div>
-        <div class="navButt popular" onclick="getStream('ranked')">Most Comments</div>
+        {{if eq .Order "chron"}}
+        <div class="navButt popular" onclick="getStream('ranked')">Rank</div>
+        {{else}}
+        <div class="navButt newest" onclick="getStream('newest')">New</div>
+        {{end}}
     </div>
     <div class="newPost navButt" onclick="togglePostForm()" id="newPostButt">Post</div>
     {{end}}
