@@ -16,7 +16,11 @@ import (
 func home(w http.ResponseWriter, r *http.Request) {
 	var v viewData
 	v.Order = "chron"
-	v.Stream = postDBChron[:20]
+	if len(postDBChron) < 20 {
+		v.Stream = postDBChron[:]
+	} else {
+		v.Stream = postDBChron[:20]
+	}
 	exeTmpl(w, r, &v, "main.tmpl")
 }
 
