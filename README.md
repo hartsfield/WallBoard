@@ -31,7 +31,7 @@ Now visit `http://localhost:4534` and add some posts:
 [example.webm](https://github.com/hartsfield/WallBoard/assets/30379836/326f0e8f-607c-468d-a657-3b294094a340)
 
 # Road map
- - Add tagging and search
+I plan on forking this to add tags, search, and user accounts, I'll post the fork here when I do.
 
 # Development
  - `autoload.sh` re-compiles and restarts the program. Run this file on save in your editor. For vim, I use `:au BufWritePost * silent! execute "!./autoload.sh wallboard 4534" | call timer_start(200, { tid -> execute(':redraw!')})`
