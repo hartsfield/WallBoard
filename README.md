@@ -3,7 +3,7 @@
 A message board built using a component based architecture written in Go.
 
 # Requirements:
-## For development
+## For Development
   - Go programming environment
   - Redis (v7+)
   - Only tested on Linux
@@ -11,6 +11,8 @@ A message board built using a component based architecture written in Go.
   - Redis (v7+)
   - Only tested on Linux
   - No binaries provided (yet)
+
+# Instructions
 
 Clone the repo, and run the following (assuming redis is running on the default port):
 
