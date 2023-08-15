@@ -12,8 +12,9 @@ document.addEventListener("scroll", (event) => {
     }
 });
 let count = 20;
+let lastPage = false;
 async function submitNext() {
-    if (count != "None") {
+    if (!lastPage) {
         let postsWrapper = document.getElementById("postsWrapper")
         const response = await fetch("/chron?count=" + count, {
             method: "POST",
@@ -29,6 +30,7 @@ async function submitNext() {
             if (res.count != "None") {
                 count = parseInt(res.count);
             } else {
+                lastPage = true;
                 document.getElementById("nextPage").innerHTML = "no more posts";
                 document.getElementById("nextPage").style.fontSize = "1em";
                 document.getElementById("nextPage").style.animationIterationCount = "1";
