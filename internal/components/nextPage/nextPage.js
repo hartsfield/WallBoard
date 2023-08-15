@@ -8,7 +8,7 @@ document.addEventListener("scroll", () => {
         setTimeout(() => {
             console.log("inview");
             submitNext();
-        }, 1000);
+        }, 800);
     }
 });
 
