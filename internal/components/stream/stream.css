@@ -27,10 +27,6 @@
     text-align: justify;
     color: #17404d;
 }
-.section-stream {
-    padding-bottom: 5em;
-    border-bottom: 1em solid #8d561f;
-}
 .timestamp {
     color: #cb3fa8;
     width: fit-content;
@@ -42,4 +38,5 @@
 
     font-family: monospace;
 }
+
 {{end}}

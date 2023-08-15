@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -14,44 +15,112 @@ import (
 
 func home(w http.ResponseWriter, r *http.Request) {
 	var v viewData
-	var count int = 0
-	v.Stream = postDBChron[count : count+20]
+	// var count int = 0
+	v.Stream = postDBChron[:20]
 	exeTmpl(w, r, &v, "main.tmpl")
 }
 func getByChron(w http.ResponseWriter, r *http.Request) {
+	// var v viewData
+	// // var count int = 0
+	// v.Stream = postDBChron
+	// exeTmpl(w, r, &v, "main.tmpl")
+	var perPage int = 20
 	var v viewData
-	var count int = 0
-	v.Stream = postDBChron[count : count+20]
-	exeTmpl(w, r, &v, "main.tmpl")
-}
-func getByRanked(w http.ResponseWriter, r *http.Request) {
-	var v viewData
-	var count int = 0
+	var count int = 20
+	log.Println(strings.Split(r.RequestURI, "?"))
 	if len(strings.Split(r.RequestURI, "?")) > 1 {
 		params, err := url.ParseQuery(strings.Split(r.RequestURI, "?")[1])
 		if err != nil {
 			log.Println(err)
-		} else {
-			if params["count"] == nil {
-				params["count"] = append(params["count"], "0")
-			}
+		}
+		if params["count"] == nil {
+			params["count"] = append(params["count"], "0")
+		}
+
+		if params["count"][0] != "None" {
 			count, err = strconv.Atoi(params["count"][0])
 			if err != nil {
 				log.Println(err)
 			}
+
+			var nextCount string
+			if len(postDBChron) < count+perPage {
+				v.Stream = postDBChron[len(postDBChron)-(count+perPage-len(postDBChron)):]
+				// if len(postDBChron) < count {
+				// }
+				nextCount = "None"
+			} else {
+				v.Stream = postDBChron[count : count+perPage]
+				log.Println(v.Stream)
+				nextCount = strconv.Itoa(count + perPage)
+			}
+			var bb bytes.Buffer
+			err = templates.ExecuteTemplate(&bb, "stream.tmpl", v)
+			if err != nil {
+				log.Println(err)
+			}
+			ajaxResponse(w, map[string]string{
+				"success":  "true",
+				"template": bb.String(),
+				"count":    nextCount,
+			})
 		}
-		b, err := json.Marshal(postDBRank[count : count+20])
+	} else {
+		if len(postDBChron) < perPage {
+			v.Stream = postDBRank[:]
+		} else {
+			v.Stream = postDBChron[:perPage]
+		}
+		exeTmpl(w, r, &v, "main.tmpl")
+	}
+
+}
+func getByRanked(w http.ResponseWriter, r *http.Request) {
+	var perPage int = 20
+	var v viewData
+	var count int = 20
+	log.Println(strings.Split(r.RequestURI, "?"))
+	if len(strings.Split(r.RequestURI, "?")) > 1 {
+		params, err := url.ParseQuery(strings.Split(r.RequestURI, "?")[1])
 		if err != nil {
 			log.Println(err)
 		}
+		if params["count"] == nil {
+			params["count"] = append(params["count"], "0")
+		}
 
-		ajaxResponse(w, map[string]string{
-			"success": "true",
-			"stream":  string(b),
-		})
+		if params["count"][0] != "None" {
+			count, err = strconv.Atoi(params["count"][0])
+			if err != nil {
+				log.Println(err)
+			}
 
+			var nextCount string
+			if len(postDBRank) < count && len(postDBRank) < count+perPage {
+				v.Stream = postDBRank[len(postDBRank)-(count-len(postDBRank)):]
+				nextCount = "None"
+			} else {
+				v.Stream = postDBRank[count+1 : count+perPage]
+				log.Println(v.Stream)
+				nextCount = strconv.Itoa(count + perPage)
+			}
+			var bb bytes.Buffer
+			err = templates.ExecuteTemplate(&bb, "stream.tmpl", v)
+			if err != nil {
+				log.Println(err)
+			}
+			ajaxResponse(w, map[string]string{
+				"success":  "true",
+				"template": bb.String(),
+				"count":    nextCount,
+			})
+		}
 	} else {
-		v.Stream = postDBRank[count:20]
+		if len(postDBRank) < perPage {
+			v.Stream = postDBRank[:]
+		} else {
+			v.Stream = postDBRank[:perPage]
+		}
 		exeTmpl(w, r, &v, "main.tmpl")
 	}
 }

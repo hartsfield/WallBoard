@@ -8,7 +8,8 @@
     right: -8.5em;
     bottom: 1em;
     font-weight: bold;
-    background: #709624;
-    color: #e6ffce;
+    font-weight: 900;
+    background: #709624ad;
+    color: #ffffff;
 }
 {{end}}

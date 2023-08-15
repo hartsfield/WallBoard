@@ -13,6 +13,7 @@ type post struct {
 	Children   []*post   `json:"children" redis:"children"`
 	ChildCount int       `json:"childCount" redis:"childCount"`
 	Parent     string    `json:"parent" redis:"parent"`
+	PostCount  string    `json:"postCount" redis:"postCount"`
 }
 
 type userData struct {

@@ -17,6 +17,7 @@ func bolt() (ctx context.Context, srv *http.Server) {
 	mux = http.NewServeMux()
 	mux.HandleFunc("/", home)
 	mux.HandleFunc("/ranked", getByRanked)
+	mux.HandleFunc("/chron", getByChron)
 	mux.HandleFunc("/post/", viewPost)
 	mux.HandleFunc("/api/submitForm", handleForm)
 	mux.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
