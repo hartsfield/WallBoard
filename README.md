@@ -23,4 +23,4 @@ Clone the repo, and run the following (assuming redis is running on the default 
 
 Now visit `http://localhost:4534` and add some posts. 
 
-[Screencast from 2023-08-15 16-47-45.webm](https://github.com/hartsfield/WallBoard/assets/30379836/d548af58-397f-4a53-af69-9935842b770a)
+[example.webm](https://github.com/hartsfield/WallBoard/assets/30379836/326f0e8f-607c-468d-a657-3b294094a340)
