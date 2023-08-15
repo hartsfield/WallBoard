@@ -1,6 +1,6 @@
 {{ define "stream.css" }}
 .post {
-    margin: 1em 0;
+    margin: 0.5em 0;
     border-radius: 0.3em;
     border: 1px solid #eaeaea;
     background: #fffff9;
