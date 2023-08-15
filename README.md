@@ -1,8 +1,10 @@
 # WallBoard - Ephemeral - No Signup - GPLv3 - Message Board
 
-Generic boiler plate code for use as an anonymous  message board. Built using a 
-component based architecture written in Go ([bolt](https://github.com/hartsfield/bolt)) and provided under the GNU 
-General Public License version 3 (GPLv3).
+Generic boiler plate code for use as an anonymous message board, or for building 
+other types of social media applications. Built using a 
+component based architecture written in Go 
+([bolt](https://github.com/hartsfield/bolt)) and provided under the GNU General 
+Public License version 3 (GPLv3).
 
 # https://walBoard.xyz/
 
