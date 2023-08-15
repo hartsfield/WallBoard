@@ -50,7 +50,8 @@ func viewPost(w http.ResponseWriter, r *http.Request) {
 	parts := strings.Split(r.RequestURI, "/")
 	var p post
 	rdb.HGetAll(rdx, parts[len(parts)-1]).Scan(&p)
-	if len(p.Id) == 10 {
+	log.Println(len(p.Id))
+	if len(p.Id) == 11 {
 		getAllChidren(&p, "RANK")
 	} else {
 		p.BodyText = "This post was automatically deleted."
