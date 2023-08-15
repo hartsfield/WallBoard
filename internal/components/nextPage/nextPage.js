@@ -13,29 +13,29 @@ document.addEventListener("scroll", (event) => {
 });
 let count = 20;
 async function submitNext() {
-    console.log(count);
-    let postsWrapper = document.getElementById("postsWrapper")
-    const response = await fetch("/chron?count=" + count, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: "",
-    });
+    if (count != "None") {
+        let postsWrapper = document.getElementById("postsWrapper")
+        const response = await fetch("/chron?count=" + count, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: "",
+        });
 
-    console.log("test:");
-    let res = await response.json();
-    if (res.success == "true") {
-        postsWrapper.insertAdjacentHTML("beforeend", res.template);
-        requestMade = false;
-        if (res.count != "None") {
-            count = parseInt(res.count);
-            count = res.count;
+        console.log("test:");
+        let res = await response.json();
+        if (res.success == "true") {
+            postsWrapper.insertAdjacentHTML("beforeend", res.template);
+            requestMade = false;
+            if (res.count != "None") {
+                count = parseInt(res.count);
+            } else {
+                document.getElementById("nextPage").innerHTML = "no more posts";
+                document.getElementById("nextPage").style.fontSize = "1em";
+                document.getElementById("nextPage").style.animationIterationCount = "1";
+            }
         } else {
-            document.getElementById("nextPage").innerHTML = "no more posts";
-            document.getElementById("nextPage").style.fontSize = "1em";
-            document.getElementById("nextPage").style.animationIterationCount = "1";
+            console.log("error");
         }
-    } else {
-        console.log("error");
     }
 }
 
