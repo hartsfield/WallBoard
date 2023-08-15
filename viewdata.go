@@ -2,6 +2,8 @@ package main
 
 import "time"
 
+// post is the structure of a user post. Posts are created by users and stored
+// in redis.
 type post struct {
 	Title      string    `json:"title" redis:"title"`
 	Id         string    `json:"id" redis:"id"`
@@ -16,6 +18,7 @@ type post struct {
 	PostCount  string    `json:"postCount" redis:"postCount"`
 }
 
+// viewData contains all the neccessary data to display a page
 type viewData struct {
 	ViewType    string `json:"viewType" redis:"viewType"`
 	PageTitle   string

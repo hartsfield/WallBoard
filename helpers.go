@@ -12,6 +12,7 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
+// lastCached is how many milliseconds ago the database was last cached
 var lastCached time.Time
 
 // beginCache will cache the database no more than every 3 seconds. This
@@ -36,6 +37,7 @@ func beginCache() {
 	}
 }
 
+// buildDB is used to cache the redis database
 func buildDB() {
 	postDBChron = nil
 	postDBRank = nil
@@ -70,6 +72,7 @@ func buildDB() {
 	}
 }
 
+// getAllChidren is a recursive function used to get all the children of a post
 func getAllChidren(po *post, suffix string) {
 	var ids []string
 	opts := &redis.ZRangeBy{
@@ -91,6 +94,8 @@ func getAllChidren(po *post, suffix string) {
 	}
 }
 
+// bubbleUp is a recursive function used to increment the ranks of posts as
+// they're replied to.
 func bubbleUp(p *post) {
 	str, err := rdb.HGet(rdx, p.Id, "childCount").Result()
 	if err != nil {
@@ -121,6 +126,8 @@ func bubbleUp(p *post) {
 	}
 }
 
+// popLast removes the oldest post in the database, and is used to maintain a
+// count of 99 active threads
 func popLast() {
 	length_, err := rdb.ZCount(rdx, "ANON:POSTS:CHRON", "-inf", "+inf").Result()
 	if err != nil {
@@ -181,6 +188,8 @@ func makeZmem(st string) redis.Z {
 		Score:  0,
 	}
 }
+
+// marshalPostData is used to marshal a JSON string into a *post struct
 func marshalPostData(r *http.Request) (*post, error) {
 	t := &post{}
 	decoder := json.NewDecoder(r.Body)

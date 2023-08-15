@@ -12,12 +12,15 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
+// home is displays the main page
 func home(w http.ResponseWriter, r *http.Request) {
 	var v viewData
 	v.Order = "chron"
 	v.Stream = postDBChron[:20]
 	exeTmpl(w, r, &v, "main.tmpl")
 }
+
+// getByChron returns 20 posts at a time in chronological order
 func getByChron(w http.ResponseWriter, r *http.Request) {
 	var v viewData
 	v.Order = "chron"
@@ -66,6 +69,8 @@ func getByChron(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+// getByRanked returns 20 posts at a time in ranked order.
 func getByRanked(w http.ResponseWriter, r *http.Request) {
 	var v viewData
 	v.Order = "ranked"
@@ -113,6 +118,7 @@ func getByRanked(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// viewPost returns a single post, with replies.
 func viewPost(w http.ResponseWriter, r *http.Request) {
 	parts := strings.Split(r.RequestURI, "/")
 	var p post
@@ -129,6 +135,7 @@ func viewPost(w http.ResponseWriter, r *http.Request) {
 	exeTmpl(w, r, &v, "post.tmpl")
 }
 
+// handleForm verifies a users submissions and then adds it to the database.
 func handleForm(w http.ResponseWriter, r *http.Request) {
 	data, err := marshalPostData(r)
 	if err != nil {
