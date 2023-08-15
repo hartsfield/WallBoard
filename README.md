@@ -2,7 +2,17 @@
 
 A message board built using a component based architecture written in Go.
 
-Clone the repo, and run the following (assuming you have a go development environment set up):
+# Requirements:
+## For development:
+  - Go programming environment
+  - Redis (v7+)
+  - Only tested on Linux
+## To Run
+  - Redis (v7+)
+  - Only tested on Linux
+  - No binaries provided (yet)
+
+Clone the repo, and run the following:
 
     go mod init example.com/m/v2
     go mod tidy
