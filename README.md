@@ -29,3 +29,6 @@ Clone the repo, and run the following (assuming redis is running on the default 
 Now visit `http://localhost:4534` and add some posts:
 
 [example.webm](https://github.com/hartsfield/WallBoard/assets/30379836/326f0e8f-607c-468d-a657-3b294094a340)
+
+# Road map:
+ - Add tagging and search

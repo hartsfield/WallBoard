@@ -1,4 +1,4 @@
-package main // viewData represents the root model used to dynamically update the app
+package main
 
 import (
 	"fmt"

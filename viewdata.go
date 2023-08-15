@@ -18,7 +18,7 @@ type post struct {
 	PostCount  string    `json:"postCount" redis:"postCount"`
 }
 
-// viewData contains all the neccessary data to display a page
+// viewData represents the root model used to dynamically update the app
 type viewData struct {
 	ViewType    string `json:"viewType" redis:"viewType"`
 	PageTitle   string
