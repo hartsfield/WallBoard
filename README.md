@@ -32,3 +32,6 @@ Now visit `http://localhost:4534` and add some posts:
 
 # Road map:
  - Add tagging and search
+
+# Development
+ - `autoload.sh` re-compiles and restarts the program. Run this file on save in your editor. For vim, I use `:au BufWritePost * silent! execute "!./autoload.sh wallboard 4534" | call timer_start(200, { tid -> execute(':redraw!')})`
