@@ -12,7 +12,7 @@ A message board built using a component based architecture written in Go.
   - Only tested on Linux
   - No binaries provided (yet)
 
-Clone the repo, and run the following:
+Clone the repo, and run the following (assuming redis is running on the default port):
 
     go mod init example.com/m/v2
     go mod tidy
