@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"encoding/json"
 	"log"
 	"net/http"
 	"net/url"
@@ -15,21 +14,14 @@ import (
 
 func home(w http.ResponseWriter, r *http.Request) {
 	var v viewData
-	// var count int = 0
 	v.Order = "chron"
 	v.Stream = postDBChron[:20]
 	exeTmpl(w, r, &v, "main.tmpl")
 }
 func getByChron(w http.ResponseWriter, r *http.Request) {
-	// var v viewData
-	// // var count int = 0
-	// v.Stream = postDBChron
-	// exeTmpl(w, r, &v, "main.tmpl")
-	var perPage int = 20
 	var v viewData
 	v.Order = "chron"
 	var count int = 20
-	log.Println(strings.Split(r.RequestURI, "?"))
 	if len(strings.Split(r.RequestURI, "?")) > 1 {
 		params, err := url.ParseQuery(strings.Split(r.RequestURI, "?")[1])
 		if err != nil {
@@ -46,14 +38,12 @@ func getByChron(w http.ResponseWriter, r *http.Request) {
 			}
 
 			var nextCount string
-			if len(postDBChron) < count+perPage {
-				v.Stream = postDBChron[len(postDBChron)-(count+perPage-len(postDBChron)):]
-				// if len(postDBChron) < count {
-				// }
+			if len(postDBChron) < count+count {
+				v.Stream = postDBChron[len(postDBChron)-(count+count-len(postDBChron)):]
 				nextCount = "None"
 			} else {
-				v.Stream = postDBChron[count+1 : count+perPage]
-				nextCount = strconv.Itoa(count + perPage)
+				v.Stream = postDBChron[count+1 : count+count]
+				nextCount = strconv.Itoa(count + count)
 			}
 			var bb bytes.Buffer
 			err = templates.ExecuteTemplate(&bb, "stream.tmpl", v)
@@ -67,21 +57,19 @@ func getByChron(w http.ResponseWriter, r *http.Request) {
 			})
 		}
 	} else {
-		if len(postDBChron) < perPage {
+		if len(postDBChron) < count {
 			v.Stream = postDBRank[:]
 		} else {
-			v.Stream = postDBChron[:perPage]
+			v.Stream = postDBChron[:count]
 		}
 		exeTmpl(w, r, &v, "main.tmpl")
 	}
 
 }
 func getByRanked(w http.ResponseWriter, r *http.Request) {
-	var perPage int = 20
 	var v viewData
 	v.Order = "ranked"
 	var count int = 20
-	log.Println(strings.Split(r.RequestURI, "?"))
 	if len(strings.Split(r.RequestURI, "?")) > 1 {
 		params, err := url.ParseQuery(strings.Split(r.RequestURI, "?")[1])
 		if err != nil {
@@ -90,7 +78,6 @@ func getByRanked(w http.ResponseWriter, r *http.Request) {
 		if params["count"] == nil {
 			params["count"] = append(params["count"], "0")
 		}
-
 		if params["count"][0] != "None" {
 			count, err = strconv.Atoi(params["count"][0])
 			if err != nil {
@@ -98,13 +85,12 @@ func getByRanked(w http.ResponseWriter, r *http.Request) {
 			}
 
 			var nextCount string
-			if len(postDBRank) < count && len(postDBRank) < count+perPage {
+			if len(postDBRank) < count && len(postDBRank) < count+count {
 				v.Stream = postDBRank[len(postDBRank)-(count-len(postDBRank)):]
 				nextCount = "None"
 			} else {
-				v.Stream = postDBRank[count+1 : count+perPage]
-				log.Println(v.Stream)
-				nextCount = strconv.Itoa(count + perPage)
+				v.Stream = postDBRank[count+1 : count+count]
+				nextCount = strconv.Itoa(count + count)
 			}
 			var bb bytes.Buffer
 			err = templates.ExecuteTemplate(&bb, "stream.tmpl", v)
@@ -118,10 +104,10 @@ func getByRanked(w http.ResponseWriter, r *http.Request) {
 			})
 		}
 	} else {
-		if len(postDBRank) < perPage {
+		if len(postDBRank) < count {
 			v.Stream = postDBRank[:]
 		} else {
-			v.Stream = postDBRank[:perPage]
+			v.Stream = postDBRank[:count]
 		}
 		exeTmpl(w, r, &v, "main.tmpl")
 	}
@@ -131,7 +117,6 @@ func viewPost(w http.ResponseWriter, r *http.Request) {
 	parts := strings.Split(r.RequestURI, "/")
 	var p post
 	rdb.HGetAll(rdx, parts[len(parts)-1]).Scan(&p)
-	log.Println(len(p.Id))
 	if len(p.Id) == 11 {
 		getAllChidren(&p, "RANK")
 	} else {
@@ -142,7 +127,6 @@ func viewPost(w http.ResponseWriter, r *http.Request) {
 	v.Stream = append(v.Stream, &p)
 	v.ViewType = "post"
 	exeTmpl(w, r, &v, "post.tmpl")
-
 }
 
 func handleForm(w http.ResponseWriter, r *http.Request) {
@@ -150,23 +134,18 @@ func handleForm(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-	log.Println(data.Parent)
 	parentExists, err := rdb.Exists(rdx, data.Parent).Result()
 	if err != nil {
 		log.Println(err)
 	}
 
 	if parentExists == 0 && data.Parent != "root" {
-		log.Println(" no parent")
 		ajaxResponse(w, map[string]string{
 			"success":   "false",
 			"replyID":   "",
 			"timestamp": data.FTS,
 		})
 		return
-	}
-	if len(data.Title) > 1 {
-		// return
 	}
 	if len(data.BodyText) < 5 || len(data.BodyText) > 1000 {
 		ajaxResponse(w, map[string]string{"success": "false"})
@@ -201,15 +180,4 @@ func handleForm(w http.ResponseWriter, r *http.Request) {
 		"timestamp": data.FTS,
 	})
 	beginCache()
-}
-
-func marshalPostData(r *http.Request) (*post, error) {
-	t := &post{}
-	decoder := json.NewDecoder(r.Body)
-	defer r.Body.Close()
-	err := decoder.Decode(t)
-	if err != nil {
-		return t, err
-	}
-	return t, nil
 }

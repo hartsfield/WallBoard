@@ -11,15 +11,11 @@
     padding: 0.5em 1em 0.5em 1em;
     {{end}}
 }
-/* .post:nth-of-type(1) { */
-/*     border-right: 1px solid #eaeaea; */
-/* } */
 .post-reply {
     border-right: none;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
-
 .body-outer {
     cursor: pointer;
     margin: 0.5em 1em 0.8em 0;
@@ -29,13 +25,10 @@
 .timestamp {
     color: #cb3fa8;
     width: fit-content;
-
     font-family: monospace;
 }
 .cCount {
     color: #a65000;
-
     font-family: monospace;
 }
-
 {{end}}

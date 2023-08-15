@@ -16,16 +16,11 @@ type post struct {
 	PostCount  string    `json:"postCount" redis:"postCount"`
 }
 
-type userData struct {
-	Name string `json:"name" redis:"name"`
-}
-
 type viewData struct {
 	ViewType    string `json:"viewType" redis:"viewType"`
 	PageTitle   string
 	CompanyName string
 	Stream      []*post
-	UserData    userData
 	Nonce       string
 	Order       string `json:"order" redis:"order"`
 }

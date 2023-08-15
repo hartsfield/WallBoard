@@ -2,7 +2,7 @@
 let nextpagerButt = document.getElementById("nextPage");
 
 let requestMade = false;
-document.addEventListener("scroll", (event) => {
+document.addEventListener("scroll", () => {
     if (isElementInViewport(nextpagerButt) && !requestMade) {
         requestMade = true;
         setTimeout(() => {
@@ -11,6 +11,7 @@ document.addEventListener("scroll", (event) => {
         }, 1000);
     }
 });
+
 let count = 20;
 let lastPage = false;
 async function submitNext() {
@@ -40,6 +41,4 @@ async function submitNext() {
         }
     }
 }
-
-
 {{end}}

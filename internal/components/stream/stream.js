@@ -6,11 +6,10 @@ async function submitReply(postID) {
     } else if (formBody.length > 1000) {
         document.getElementById("errorField_"+postID).innerHTML = "too long";
     } else {
-        const response = await fetch("/api/submitForm", {
+        const response = await fetch("/submitForm", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                "title": "nil value",
                 "bodytext": formBody,
                 "parent": postID
             }),
@@ -18,7 +17,6 @@ async function submitReply(postID) {
 
         let res = await response.json();
         if (res.success == "true") {
-            console.log(postID);
             let submitForm = document.getElementById("reply-form_"+postID);
             submitForm.remove();
             window.location = window.location.origin + "/post/" + postID;
@@ -29,7 +27,6 @@ async function submitReply(postID) {
 }
 function toggleReplyForm(postID) {
     let toggleStatus = document.getElementById("reply-form_"+postID).style.display;
-    console.log(toggleStatus);
     if (toggleStatus != "block") {
         document.getElementById("reply-form_"+postID).style.display = "block";
     } else {
@@ -37,19 +34,13 @@ function toggleReplyForm(postID) {
     }
 }
 function isElementInViewport (el) {
-    // Special bonus for those using jQuery
-    if (typeof jQuery === "function" && el instanceof jQuery) {
-        el = el[0];
-    }
-
     var rect = el.getBoundingClientRect();
 
     return (
         rect.top >= 0 &&
         rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /* or $(window).height() */
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth) /* or $(window).width() */
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
     );
 }
-
 {{end}}

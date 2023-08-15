@@ -8,6 +8,7 @@ import (
 	"time"
 )
 
+// bolt is where the server is configured and routes are registered
 func bolt() (ctx context.Context, srv *http.Server) {
 	template.Must(templates.ParseGlob("internal/pages/*/*"))
 	template.Must(templates.ParseGlob("internal/components/*/*"))
@@ -19,7 +20,7 @@ func bolt() (ctx context.Context, srv *http.Server) {
 	mux.HandleFunc("/ranked", getByRanked)
 	mux.HandleFunc("/chron", getByChron)
 	mux.HandleFunc("/post/", viewPost)
-	mux.HandleFunc("/api/submitForm", handleForm)
+	mux.HandleFunc("/submitForm", handleForm)
 	mux.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
 
 	srv = serverFromConf(mux)

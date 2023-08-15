@@ -3,13 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"log"
 	"math/rand"
 	"net/http"
-	"os"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/redis/go-redis/v9"
@@ -184,38 +181,13 @@ func makeZmem(st string) redis.Z {
 		Score:  0,
 	}
 }
-
-func genName() {
-	adjs := readAdjectives()
-	nouns := readNouns()
-	name := adjs[rand.Intn(len(adjs))] + nouns[rand.Intn(len(adjs))]
-	log.Println(name)
-}
-func readNouns() []string {
-	file, err := os.Open("english-nouns.txt")
+func marshalPostData(r *http.Request) (*post, error) {
+	t := &post{}
+	decoder := json.NewDecoder(r.Body)
+	defer r.Body.Close()
+	err := decoder.Decode(t)
 	if err != nil {
-		log.Fatal(err)
+		return t, err
 	}
-	defer func() {
-		if err = file.Close(); err != nil {
-			log.Fatal(err)
-		}
-	}()
-
-	b, err := io.ReadAll(file)
-	return strings.Split(string(b), "\n")
-}
-func readAdjectives() []string {
-	file, err := os.Open("english-adjectives.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer func() {
-		if err = file.Close(); err != nil {
-			log.Fatal(err)
-		}
-	}()
-
-	b, err := io.ReadAll(file)
-	return strings.Split(string(b), "\n")
+	return t, nil
 }
