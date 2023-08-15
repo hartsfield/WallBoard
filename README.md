@@ -1,6 +1,7 @@
-# WallBoard - Ephemeral - No Signup - Message Board
+# WallBoard - Ephemeral - No Signup - GPLv3 - Message Board
 
-A message board built using a component based architecture written in Go.
+A message board built using a component based architecture written in Go and 
+provided under the Gnu Public License version 3 (GPLv3)
 
 # https://walBoard.xyz/
 
