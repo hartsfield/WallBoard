@@ -5,9 +5,9 @@ let requestMade = false;
 document.addEventListener("scroll", () => {
     if (isElementInViewport(nextpagerButt) && !requestMade) {
         requestMade = true;
-        // setTimeout(() => {
+        setTimeout(() => {
             submitNext();
-        // }, 800);
+        }, 500);
     }
 });
 
