@@ -7,7 +7,7 @@
     background: #fffff9;
     /* border: 1px solid #eaeaea; */
     border: 1px solid #7dae93;
-    font-weight: 500;
+    font-weight: 400;
     {{ if eq .ViewType "post" }}
     padding: 0.5em 0em 0.5em 1em;
     {{else}}
