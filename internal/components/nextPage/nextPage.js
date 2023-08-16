@@ -29,6 +29,7 @@ async function submitNext() {
             requestMade = false;
             if (res.count != "None") {
                 count = parseInt(res.count);
+                console.log(count);
             } else {
                 lastPage = true;
                 document.getElementById("nextPage").innerHTML = "no more posts";
