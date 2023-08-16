@@ -11,7 +11,7 @@ document.addEventListener("scroll", () => {
     }
 });
 
-let count = 0;
+let count = 20;
 let lastPage = false;
 async function submitNext() {
     if (!lastPage) {
