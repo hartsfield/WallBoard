@@ -45,11 +45,11 @@ func getByChron(w http.ResponseWriter, r *http.Request) {
 			}
 
 			var nextCount string
-			if len(postDBChron) < count+count {
-				v.Stream = postDBChron[len(postDBChron)-(count+count-len(postDBChron)):]
+			if len(postDBChron) < count+20 {
+				v.Stream = postDBChron[len(postDBChron)-(count+20-len(postDBChron)):]
 				nextCount = "None"
 			} else {
-				v.Stream = postDBChron[count+1 : count+count]
+				v.Stream = postDBChron[count+1 : count+20]
 				nextCount = strconv.Itoa(count + 20)
 			}
 			var bb bytes.Buffer
@@ -95,12 +95,12 @@ func getByRanked(w http.ResponseWriter, r *http.Request) {
 
 			var nextCount string
 			// if len(postDBRank) < count && len(postDBRank) < count+count {
-			if len(postDBChron) < count+count {
+			if len(postDBChron) < count+20 {
 				// v.Stream = postDBRank[len(postDBRank)-(count-len(postDBRank)):]
-				v.Stream = postDBChron[len(postDBChron)-(count+count-len(postDBChron)):]
+				v.Stream = postDBChron[len(postDBChron)-(count+20-len(postDBChron)):]
 				nextCount = "None"
 			} else {
-				v.Stream = postDBRank[count+1 : count+count]
+				v.Stream = postDBRank[count+1 : count+20]
 				nextCount = strconv.Itoa(count + 20)
 			}
 			var bb bytes.Buffer

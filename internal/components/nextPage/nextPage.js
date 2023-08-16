@@ -22,7 +22,6 @@ async function submitNext() {
             body: "",
         });
 
-        console.log("test:");
         let res = await response.json();
         if (res.success == "true") {
             postsWrapper.insertAdjacentHTML("beforeend", res.template);
