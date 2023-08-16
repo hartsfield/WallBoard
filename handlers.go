@@ -50,7 +50,7 @@ func getByChron(w http.ResponseWriter, r *http.Request) {
 				v.Stream = postDBChron[count+(len(postDBChron)-count):]
 				nextCount = "None"
 			} else {
-				v.Stream = postDBChron[count+1 : count+20]
+				v.Stream = postDBChron[count : count+20]
 				nextCount = strconv.Itoa(count + 20)
 			}
 			var bb bytes.Buffer
