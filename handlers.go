@@ -47,7 +47,7 @@ func getByChron(w http.ResponseWriter, r *http.Request) {
 			var nextCount string
 			if len(postDBChron) < count+19 {
 				log.Println(" testtttttttttttttttttt")
-				v.Stream = postDBChron[len(postDBChron)-(count+20-len(postDBChron)):]
+				v.Stream = postDBChron[count:]
 				nextCount = "None"
 			} else {
 				v.Stream = postDBChron[count+1 : count+20]
