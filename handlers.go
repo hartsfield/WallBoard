@@ -94,12 +94,14 @@ func getByRanked(w http.ResponseWriter, r *http.Request) {
 			}
 
 			var nextCount string
-			if len(postDBRank) < count && len(postDBRank) < count+count {
-				v.Stream = postDBRank[len(postDBRank)-(count-len(postDBRank)):]
+			// if len(postDBRank) < count && len(postDBRank) < count+count {
+			if len(postDBChron) < count+count {
+				// v.Stream = postDBRank[len(postDBRank)-(count-len(postDBRank)):]
+				v.Stream = postDBChron[len(postDBChron)-(count+count-len(postDBChron)):]
 				nextCount = "None"
 			} else {
 				v.Stream = postDBRank[count+1 : count+count]
-				nextCount = strconv.Itoa(count + count)
+				nextCount = strconv.Itoa(count + 20)
 			}
 			var bb bytes.Buffer
 			err = templates.ExecuteTemplate(&bb, "stream.tmpl", v)
