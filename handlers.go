@@ -45,8 +45,7 @@ func getByChron(w http.ResponseWriter, r *http.Request) {
 			}
 
 			var nextCount string
-			// if len(postDBChron) < count {
-			if len(postDBRank) < count || len(postDBRank) < count+20 {
+			if len(postDBChron) < count || len(postDBChron) < count+19 {
 				v.Stream = postDBChron[len(postDBChron)-(count+20-len(postDBChron)):]
 				nextCount = "None"
 			} else {
@@ -95,10 +94,9 @@ func getByRanked(w http.ResponseWriter, r *http.Request) {
 			}
 
 			var nextCount string
-			if len(postDBRank) < count || len(postDBRank) < count+count {
+			if len(postDBRank) < count || len(postDBRank) < count+20 {
 				// if len(postDBChron) < count {
-				// v.Stream = postDBRank[len(postDBRank)-(count-len(postDBRank)):]
-				v.Stream = postDBChron[len(postDBChron)-(count+20-len(postDBChron)):]
+				v.Stream = postDBRank[len(postDBRank)-(count+20-len(postDBRank)):]
 				nextCount = "None"
 			} else {
 				v.Stream = postDBRank[count+1 : count+20]
